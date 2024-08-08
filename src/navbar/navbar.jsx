@@ -88,9 +88,12 @@ export default function Navbar() {
               <span>Log In</span>
             </button>
             </Link>
-            <button id="sign" className="hidden select-none rounded-lg bg-bittersweet py-2 px-4 text-wheat align-middle font-sans text-xs font-bold uppercase text-sazerac shadow-md shadow-gray-900/10 transition-all hover:bg-monza active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none lg:inline-block" type="button">
+
+            <Link to="/signin"> 
+            <button id="sign" className="hidden select-none px-4 py-2 rounded-lg bg-bittersweet py-2 px-4 text-wheat bg-sazerac align-middle font-sans text-xs font-bold uppercase text-sazerac shadow-md shadow-gray-900/10 transition-all hover:bg-monza active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none lg:inline-block" type="button">
               <span>Sign in</span>
             </button>
+            </Link>
           </div>
           <button ref={buttonRef} className={`relative ml-auto h-6 max-h-[40px] w-6 max-w-[40px] select-none rounded text-center align-middle text-xs font-medium transition-all ${isMenuOpen ? 'border-2' : ''} disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none lg:hidden`} type="button" onClick={toggleMenu}>
             <span className="absolute transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 w-6 h-6">

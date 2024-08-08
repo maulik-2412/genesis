@@ -3,7 +3,8 @@ import './App.css'
 import Navbar from './navbar/navbar'
 import Home from './pages/homepage'
 import Login from './pages/login'
-import Banner from './pages/banner'
+import SignIn from './pages/signin'
+// import Banner from './pages/banner'
 
 function App() {
   
@@ -14,7 +15,7 @@ function App() {
       <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
-      {/* <Route path="/signin" element={<SignIn />} /> */}
+      <Route path="/signin" element={<SignIn />} />
       </Routes>
     </Router>
     </>
