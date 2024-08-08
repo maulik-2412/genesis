@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useClickAway } from 'react-use';
 import menu from '../assets/react.svg';
 import { AnimatePresence, motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -60,9 +61,11 @@ export default function Navbar() {
   return (
     <nav className="homeNavbar bg-de-york sticky top-0 z-10 block w-full  px-4 py-2 rounded-none h-max backdrop-blur-2xl backdrop-saturate-200 lg:px-8 lg:py-4">
       <div className="flex items-center justify-between">
-        <a href="#home" className="companyLogo text-picton-blue mr-4 block cursor-pointer py-1.5 font-sans text-base font-medium leading-relaxed antialiased">
+        <Link to="/" className="companyLogo text-picton-blue mr-4 block cursor-pointer py-1.5 font-sans text-base font-medium leading-relaxed antialiased">
+        
           Brand
-        </a>
+        
+        </Link>
         <div className="hidden items-center lg:block">
           <ul className="flex flex-col gap-2 mt-2 mb-4 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center">
           <li className={`block p-1 grow font-sans text-md antialiased font-medium leading-8 ${isActive('aboutus')}`}>
@@ -80,9 +83,11 @@ export default function Navbar() {
         
         <div className="flex items-center gap-8">
         <div className="flex items-center gap-x-1">
+            <Link to="/login">
             <button className="hidden px-4 py-2 font-sans text-xs font-bold text-center text-wheat bg-sazerac uppercase align-middle transition-all rounded-lg select-none hover:bg-monza active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none lg:inline-block" type="button">
               <span>Log In</span>
             </button>
+            </Link>
             <button className="hidden select-none rounded-lg bg-bittersweet py-2 px-4 text-wheat align-middle font-sans text-xs font-bold uppercase text-sazerac shadow-md shadow-gray-900/10 transition-all hover:bg-monza active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none lg:inline-block" type="button">
               <span>Sign in</span>
             </button>
