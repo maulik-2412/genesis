@@ -84,11 +84,11 @@ export default function Navbar() {
         <div className="flex items-center gap-8">
         <div className="flex items-center gap-x-1">
             <Link to="/login">
-            <button className="hidden px-4 py-2 font-sans text-xs font-bold text-center text-wheat bg-sazerac uppercase align-middle transition-all rounded-lg select-none hover:bg-monza active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none lg:inline-block" type="button">
+            <button id="log" className="hidden px-4 py-2 font-sans text-xs font-bold text-center text-wheat bg-sazerac uppercase align-middle transition-all rounded-lg select-none hover:bg-monza active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none lg:inline-block" type="button">
               <span>Log In</span>
             </button>
             </Link>
-            <button className="hidden select-none rounded-lg bg-bittersweet py-2 px-4 text-wheat align-middle font-sans text-xs font-bold uppercase text-sazerac shadow-md shadow-gray-900/10 transition-all hover:bg-monza active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none lg:inline-block" type="button">
+            <button id="sign" className="hidden select-none rounded-lg bg-bittersweet py-2 px-4 text-wheat align-middle font-sans text-xs font-bold uppercase text-sazerac shadow-md shadow-gray-900/10 transition-all hover:bg-monza active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none lg:inline-block" type="button">
               <span>Sign in</span>
             </button>
           </div>
