@@ -1,4 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 #root {
- 
+    --find-doctor-color: #F6E9B2;
+    --symptom-checker-color: #F6E9B2;
+}
+.find-doctor-link {
+    color: #F6E9B2; /* Change to your desired color */
+}
+  
+.symptom-checker-link {
+    color: #F6E9B2; /* Change to your desired color */
 }
 
+
+.extra{
+    margin:0 3rem;
+}
