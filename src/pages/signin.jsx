@@ -43,7 +43,16 @@ function SignIn() {
                             </button> */}
 
                         </div>
-                        <div className="text-center text-sm text-gray-600">Or with email and password</div>
+                        {/* <div className="text-center text-sm text-gray-600">Or with email and password</div> */}
+
+                        {/* Divider with lines */}
+                        <div className="flex items-center justify-center space-x-2 text-gray-600 text-sm">
+                            <hr className="flex-grow border-t border-gray-300" />
+                            <span className="px-2">Or with email and password</span>
+                            <hr className="flex-grow border-t border-gray-300" />
+                        </div>
+                    
+
                         <div className="flex flex-col space-y-4">
                             <input
                                 type="email"
