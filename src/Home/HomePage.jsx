@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import Banner from "./Banner";
-import ChatBotComponent from '../pages/chatbot';
+
 import Footer from "../pages/footer";
+import Chatbot from "../pages/chatbot";
 
 const ImageTextBlock = ({ text, imgSrc, reverse }) => (
   <div className={`flex flex-col-reverse md:flex-row ${reverse ? 'md:flex-row-reverse' : ''} items-center gap-8 md:gap-[100px]`}>
@@ -11,11 +12,7 @@ const ImageTextBlock = ({ text, imgSrc, reverse }) => (
 );
 
 export default function HomePage() {
-   const [isChatBotOpen, setChatBotOpen] = useState(false);
-
-  const handleChatBotToggle = () => {
-    setChatBotOpen(!isChatBotOpen);
-  };
+  
 
 
   return (
@@ -41,14 +38,7 @@ export default function HomePage() {
      
 
       {/* Chatbot */}
-      <button
-          className="fixed bottom-4 right-4 bg-blue-500 text-white p-3 rounded-full hover:bg-blue-600 z-50"
-          onClick={handleChatBotToggle}
-        >
-          {isChatBotOpen ? "Close Chat" : "Open Chat"}
-        </button>
-
-        {isChatBotOpen && <ChatBotComponent onClose={handleChatBotToggle} />}
+     <Chatbot/>
         <Footer/>
     </>
   );

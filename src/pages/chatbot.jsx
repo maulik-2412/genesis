@@ -1,85 +1,76 @@
-import React from "react";
-import ChatBot from "react-simple-chatbot";
-import { ThemeProvider } from "styled-components";
-import { FaTimes } from "react-icons/fa"; // Import the close icon
+import React, { useState } from 'react';
+import { MdClose } from 'react-icons/md';
+import { FaRobot } from 'react-icons/fa';
 
-// Define the chatbot steps
-const steps = [
-  {
-    id: "1",
-    message: "Welcome to our Telehealth Service! How can I assist you today?",
-    trigger: "2",
-  },
-  {
-    id: "2",
-    options: [
-      { value: "book-appointment", label: "Book an Appointment", trigger: "3" },
-      { value: "services", label: "Types of Services Offered", trigger: "4" },
-      { value: "contact-doctor", label: "Contact a Doctor", trigger: "5" },
-    ],
-  },
-  {
-    id: "3",
-    message: "To book an appointment, please visit our appointment page or call us at (123) 456-7890.",
-    trigger: "end",
-  },
-  {
-    id: "4",
-    message: "We offer various services including General Consultations, Mental Health Support, and Specialist Referrals.",
-    trigger: "end",
-  },
-  {
-    id: "5",
-    message: "You can contact a doctor directly through our chat or schedule a video call.",
-    trigger: "end",
-  },
-  {
-    id: "end",
-    message: "Is there anything else I can assist you with?",
-    trigger: "more-help",
-  },
-  {
-    id: "more-help",
-    options: [
-      { value: "yes", label: "Yes", trigger: "2" },
-      { value: "no", label: "No, thanks", end: true },
-    ],
-  },
-];
+const Chatbot = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [messages, setMessages] = useState([]);
+  const [input, setInput] = useState('');
 
-const theme = {
-  background: "#f5f8fb",
-  fontFamily: "Arial, Helvetica, sans-serif",
-  headerBgColor: "#00bfff",
-  headerFontColor: "#fff",
-  headerFontSize: "15px",
-  botBubbleColor: "#00bfff",
-  botFontColor: "#fff",
-  userBubbleColor: "#fff",
-  userFontColor: "#4a4a4a",
-};
+  const handleSend = () => {
+    if (input.trim()) {
+      const userMessage = { text: input, type: 'user' };
+      const botResponse = { text: getBotResponse(input), type: 'bot' };
 
-export default function ChatBotComponent({ onClose }) {
+      setMessages([...messages, userMessage, botResponse]);
+      setInput('');
+    }
+  };
+
+  const getBotResponse = (userInput) => {
+    const responses = {
+      'hello': 'Hi there! How can I assist you today?',
+      'book an appointment': 'You can book an appointment through our scheduling page.',
+      'mental health': 'We offer counseling and therapy sessions to support mental health.',
+      'default': 'I didn\'t understand that. Can you provide more details?',
+      'hi':'Hi there! How can I assist you today?'
+    };
+    return responses[userInput.toLowerCase()] || responses['default'];
+  };
+
   return (
-    <div className="relative h-[450px] w-[320px] bg-white border rounded-lg shadow-lg">
-      <ThemeProvider theme={theme}>
-        <div className="h-full flex flex-col">
-          <div className="flex-1 overflow-auto">
-            <ChatBot
-              steps={steps}
-              style={{ width: "100%", height: "100%" }}
-              contentStyle={{ height: "100%" }} // Adjust content height
-            />
-          </div>
-          <button
-            className="absolute top-4 right-4 p-2 rounded-full bg-gray-100 hover:bg-gray-200 z-50"
-            onClick={onClose}
-            aria-label="Close"
-          >
-            <FaTimes className="text-red-500" size={20} />
-          </button>
-        </div>
-      </ThemeProvider>
+    <div className={`fixed bottom-4 right-4 ${isOpen ? 'w-80' : 'w-16'} transition-all duration-300`}>
+      <div className={`bg-white border border-gray-300 rounded-lg shadow-lg flex flex-col ${isOpen ? 'h-80' : 'h-16'} relative`}>
+        {isOpen && (
+          <>
+            <div className="bg-blue-600 text-white p-2 rounded-t-lg text-center font-bold">
+              TeleHealth
+            </div>
+            <div className="flex-1 p-4 overflow-y-auto space-y-4">
+              {messages.map((msg, index) => (
+                <div key={index} className={`flex ${msg.type === 'user' ? 'justify-end' : 'justify-start'}`}>
+                  <div className={`max-w-xs px-4 py-2 rounded-lg ${msg.type === 'user' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-800'}`}>
+                    {msg.text}
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="border-t border-gray-300 flex items-center">
+              <input
+                type="text"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                placeholder="Type a message..."
+                className="flex-1 p-2 border-none rounded-l-lg outline-none"
+              />
+              <button
+                onClick={handleSend}
+                className="p-2 bg-blue-500 text-white rounded-r-lg hover:bg-blue-600 transition-colors duration-300"
+              >
+                Send
+              </button>
+            </div>
+          </>
+        )}
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          className="absolute top-2 right-2 p-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-colors duration-300"
+        >
+          {isOpen ? <MdClose size={20} /> :    <FaRobot size={24} />}
+        </button>
+      </div>
     </div>
   );
-}
+};
+
+export default Chatbot;
