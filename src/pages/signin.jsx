@@ -4,6 +4,10 @@ import { Link } from "react-router-dom";
 import GoogleImage from "../assets/google_icon.png";
 import passwordShowIcon from "../assets/password_show.png";
 import telehealthImage from "../assets/telehealth_logo.png";
+import { GoogleAuthProvider,signInWithPopup } from "firebase/auth";
+import { auth } from "../../firebase";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+
 
 function SignIn() {
     const [customerEmail, setCustomerEmail] = useState("");
@@ -17,6 +21,31 @@ function SignIn() {
         setShowPassword(!showPassword);
     };
 
+    const handleGoogleSignIn = async () => {
+        const provider = new GoogleAuthProvider();
+        try {
+          const result = await signInWithPopup(auth, provider);
+          const user = result.user;
+          // Optionally, you can save additional user data to Firestore or Realtime Database
+          console.log("Google Sign In Success:", user);
+        } catch (error) {
+          console.error("Google Sign In Error:", error);
+        }
+      };
+
+      const handleSubmit = (event) => {
+        event.preventDefault();
+      
+         createUserWithEmailAndPassword(auth, customerEmail, password)
+          .then((userCredential) => {
+            const user = userCredential.user;
+             console.log("User signed up:", user);
+          })
+           .catch((error) => {
+             console.error("Sign up error:", error);
+           });
+      };
+
     return (
         <div className="flex flex-col lg:flex-row items-center justify-center min-h-screen bg-white">
             <div className="flex flex-col lg:flex-row w-full max-w-4xl shadow-lg">
@@ -27,12 +56,12 @@ function SignIn() {
                         <h2 className="text-2xl font-bold text-gray-800">Create your account</h2>
                         <div className="text-sm">
                             <span className="font-bold"> Have an account? </span>
-                            <Link to="/login">
-                                <a href="#" className="text-blue-500 hover:underline">Log in now</a>
+                            <Link to="/login" className="text-blue-500 hover:underline">
+                                Log in now
                             </Link>
                         </div>
                         <div className="space-y-4">
-                            <button className="w-full flex items-center justify-center border border-gray-300 text-gray-600 py-2 px-4 rounded-lg hover:bg-gray-50">
+                            <button onClick={handleGoogleSignIn} className="w-full flex items-center justify-center border border-gray-300 text-gray-600 py-2 px-4 rounded-lg hover:bg-gray-50">
                                 <img src={GoogleImage} alt="Google Icon" className="mr-2 w-5 h-5" />
                                 Google
                             </button>
@@ -53,7 +82,7 @@ function SignIn() {
                         </div>
                     
 
-                        <div className="flex flex-col space-y-4">
+                        <form className="flex flex-col space-y-4" onSubmit={handleSubmit}>
                             <input
                                 type="email"
                                 placeholder="Email Address"
@@ -95,21 +124,16 @@ function SignIn() {
                                     )}
                                 </button>
                             </div>
-                        </div>
-                        <div className="text-xs text-gray-500">
+                            <div className="text-xs text-gray-500">
                             <p>Must be at least 8 characters</p>
                             <p>Does not contain your email address</p>
                         </div>
                         <button className="w-full bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700">
                             Sign Up
                         </button>
-                        <div className="text-xs text-gray-500">
-                            <input type="checkbox" className="mr-2" />
-                            <span>I accept the </span>
-                            <a href="#" className="text-blue-500 hover:underline">Privacy Policy</a>
-                            <span> and the </span>
-                            <a href="#" className="text-blue-500 hover:underline">Terms of Service</a>
-                        </div>
+                        </form>
+                       
+                       
                     </div>
                 </div>
                 
