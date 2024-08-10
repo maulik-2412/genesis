@@ -8,6 +8,7 @@ import { GoogleAuthProvider,signInWithPopup } from "firebase/auth";
 import { auth } from "../../firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 
+import CustomAlert from "../components/componentAlert"; // Import the CustomAlert component
 
 function SignIn() {
     const [customerEmail, setCustomerEmail] = useState("");
@@ -15,6 +16,7 @@ function SignIn() {
     const [lastName, setLastName] = useState("");
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
+    const [alert, setAlert] = useState({ show: false, message: "", isSuccess: false });
 
     // Toggle password visibility
     const togglePasswordVisibility = () => {
@@ -46,6 +48,19 @@ function SignIn() {
            });
       };
 
+    const handleSignUpClick = () => {
+        // Simulating sign-up process (replace with actual API call)
+        if (customerEmail && firstName && lastName && password.length >= 8) {
+            setAlert({ show: true, message: "Sign-up successful!", isSuccess: true });
+        } else {
+            setAlert({ show: true, message: "Sign-up failed. Please fill all fields correctly.", isSuccess: false });
+        }
+    };
+
+    const closeAlert = () => {
+        setAlert({ ...alert, show: false });
+    };
+
     return (
         <div className="flex flex-col lg:flex-row items-center justify-center min-h-screen bg-white">
             <div className="flex flex-col lg:flex-row w-full max-w-4xl shadow-lg">
@@ -65,16 +80,8 @@ function SignIn() {
                                 <img src={GoogleImage} alt="Google Icon" className="mr-2 w-5 h-5" />
                                 Google
                             </button>
-
-                            {/* <button className="w-full flex items-center justify-center border border-gray-300 text-gray-600 py-2 px-4 rounded-lg hover:bg-gray-50">
-                                <img src="/path/to/github-icon.png" alt="GitHub Icon" className="mr-2" />
-                                GitHub
-                            </button> */}
-
                         </div>
-                        {/* <div className="text-center text-sm text-gray-600">Or with email and password</div> */}
 
-                        {/* Divider with lines */}
                         <div className="flex items-center justify-center space-x-2 text-gray-600 text-sm">
                             <hr className="flex-grow border-t border-gray-300" />
                             <span className="px-2">Or with email and password</span>
@@ -128,7 +135,10 @@ function SignIn() {
                             <p>Must be at least 8 characters</p>
                             <p>Does not contain your email address</p>
                         </div>
-                        <button className="w-full bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700">
+                        <button
+                            className="w-full bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700"
+                            onClick={handleSignUpClick}
+                        >
                             Sign Up
                         </button>
                         </form>
@@ -138,7 +148,6 @@ function SignIn() {
                 </div>
                 
                 {/* Left Side - Image & Content */}
-                {/* <div className="bg-green-900 w-full lg:w-1/3 flex flex-col justify-center items-center text-white p-8 lg:p-12 lg:order-2"> */}
                 <div className="bg-green-900 w-full lg:w-2/3 flex flex-col justify-center items-center text-white p-8 lg:p-12 lg:order-2">
                     <img 
                         src={telehealthImage} 
@@ -149,13 +158,23 @@ function SignIn() {
                     <p className="text-lg mb-8">
                     Experience the future of healthcare with our telehealth solution. Access medical consultations, manage health records, and get personalized advice from top professionals—all from the comfort of your home. Stay connected to your health, no matter where you are.
                     </p>
-                    
                 </div>
             
             </div>
+
+            {/* Custom Alert Modal */}
+            {alert.show && (
+                <CustomAlert
+                    message={alert.message}
+                    onClose={closeAlert}
+                    isSuccess={alert.isSuccess}
+                />
+            )}
         </div>
     );
 }
 
 export default SignIn;
+
+
 
