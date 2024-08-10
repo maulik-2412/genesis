@@ -3,14 +3,29 @@ import telehealthImage from "../assets/telehealth_logo.png";
 import GoogleImage from "../assets/google_icon.png";
 // import githubImage from "../assets/github_icon.png";
 import { Link } from "react-router-dom";
+import CustomAlert from "../components/componentAlert"; // Import the CustomAlert component
 
 function Login() {
     const [customerEmail, setCustomerEmail] = useState("");
     const [customerPassword, setCustomerPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
+    const [alert, setAlert] = useState({ show: false, message: "", isSuccess: false });
 
     const handleNextClick = () => {
         setShowPassword(true);
+    };
+
+    const handleLoginClick = () => {
+        
+        if (customerEmail === "user@example.com" && customerPassword === "password") {
+            setAlert({ show: true, message: "Login successful!", isSuccess: true });
+        } else {
+            setAlert({ show: true, message: "Login failed. Please check your credentials.", isSuccess: false });
+        }
+    };
+
+    const closeAlert = () => {
+        setAlert({ ...alert, show: false });
     };
 
     return (
@@ -22,7 +37,7 @@ function Login() {
                     <div className="flex justify-center">
                         <img src={telehealthImage} alt="Telehealth Logo" className="mb-2 w-15 h-auto mx-auto" />
                     </div>
-                    <h2 className="text-4xl font-bold text-de-york text-center lg:text-left" style={{  fontFamily: "Segoe UI Emoji, sans" }}>Log in to your account</h2>
+                    <h2 className="text-4xl font-bold text-de-york text-center lg:text-left" style={{ fontFamily: "Segoe UI Emoji, sans" }}>Log in to your account</h2>
                     <div className="text-sm text-center lg:text-left" style={{ fontFamily: "Arial, sans-serif" }}>
                         <span>{`Don't have an account?`} </span>
                         <Link to="/signin">
@@ -77,7 +92,10 @@ function Login() {
                     ) : (
                         <>
                             <a href="#" className="text-sm text-blue-500 hover:underline">Forgot Password?</a>
-                            <button className="w-full bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700">
+                            <button
+                                onClick={handleLoginClick}
+                                className="w-full bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700"
+                            >
                                 Login
                             </button>
                         </>
@@ -95,13 +113,20 @@ function Login() {
                     <a href="#" className="text-white underline">View the schedule →</a>
                 </div>
             </div>
+
+            {/* Custom Alert Modal */}
+            {alert.show && (
+                <CustomAlert
+                    message={alert.message}
+                    onClose={closeAlert}
+                    isSuccess={alert.isSuccess}
+                />
+            )}
         </div>
     );
 }
 
 export default Login;
-
-
 
 
 
