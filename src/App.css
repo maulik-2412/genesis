@@ -13,10 +13,15 @@
 .symptom-checker-link {
     color: #F6E9B2; /* Change to your desired color */
 }
-
+#log{
+    background-color: #0A6847;
+}
+#sign{
+    background-color: #0A6847;
+}
 
 .extra{
-    margin:0 3rem;
+    margin:0 1rem;
 }
 
 .login {
