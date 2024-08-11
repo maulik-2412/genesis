@@ -51,12 +51,12 @@ export default function HomePage() {
      
 
       {/* Chatbot */}
-      <button
+     {/*  <button
           className="fixed bottom-4 right-4 bg-blue-500 text-white p-3 rounded-full hover:bg-blue-600 z-50"
           onClick={handleChatBotToggle}
         >
           {isChatBotOpen ? "Close Chat" : "Open Chat"}
-        </button>
+        </button> */}
 
         {isChatBotOpen && <ChatBotComponent onClose={handleChatBotToggle} />}
         <Footer/>

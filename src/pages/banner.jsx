@@ -13,11 +13,11 @@ const Banner = () => {
           backgroundRepeat: 'no-repeat'  // Prevents image repetition
         }}
       >
-        <div className="absolute bottom-8 left-0 right-0 flex justify-center lg:justify-start lg:pl-8">
+        {/* <div className="absolute bottom-8 left-0 right-0 flex justify-center lg:justify-start lg:pl-8">
           <button className="px-10 py-6 bg-gradient-to-r from-de-york to-de-york text-wheat font-bold text-3xl rounded-full shadow-2xl hover:from-salem hover:to-salem transform hover:scale-105 transition-transform duration-300 ease-in-out">
             Find Us
           </button>
-        </div>
+        </div> */}
       </div>
     </div>
   );
