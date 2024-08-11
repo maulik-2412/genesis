@@ -10,6 +10,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@tomtom-international/web-sdk-maps": "^6.25.0",
+    "axios": "^1.7.3",
+    "dotenv": "^16.4.5",
     "firebase": "^10.12.5",
     "firebaseui": "^6.1.0",
     "framer-motion": "^11.3.24",

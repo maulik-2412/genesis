@@ -1,7 +1,7 @@
 import { useState } from "react";
-import Banner from "../Home/banner";
-import ChatBotComponent from '../pages/chatbot';
-import Footer from "../pages/footer";
+import Banner from "./banner";
+import ChatBotComponent from './chatbot';
+import Footer from "./footer";
 import PropTypes from 'prop-types';
 
 const ImageTextBlock = ({ text, imgSrc, reverse }) => (

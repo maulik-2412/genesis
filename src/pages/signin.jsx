@@ -28,7 +28,7 @@ function SignIn() {
         try {
           const result = await signInWithPopup(auth, provider);
           const user = result.user;
-          // Optionally, you can save additional user data to Firestore or Realtime Database
+          
           console.log("Google Sign In Success:", user);
         } catch (error) {
           console.error("Google Sign In Error:", error);

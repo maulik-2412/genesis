@@ -4,29 +4,36 @@ import GoogleImage from "../assets/google_icon.png";
 // import githubImage from "../assets/github_icon.png";
 import { Link } from "react-router-dom";
 import CustomAlert from "../components/componentAlert"; // Import the CustomAlert component
+import { auth } from "../../firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
+
 
 function Login() {
     const [customerEmail, setCustomerEmail] = useState("");
     const [customerPassword, setCustomerPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
     const [alert, setAlert] = useState({ show: false, message: "", isSuccess: false });
+    const [error, setError] = useState(''); 
 
     const handleNextClick = () => {
         setShowPassword(true);
     };
 
-    const handleLoginClick = () => {
-        
-        if (customerEmail === "user@example.com" && customerPassword === "password") {
+    const handleLoginClick = async () => {
+        try {
+            await signInWithEmailAndPassword(auth, customerEmail, customerPassword);
             setAlert({ show: true, message: "Login successful!", isSuccess: true });
-        } else {
-            setAlert({ show: true, message: "Login failed. Please check your credentials.", isSuccess: false });
+        } catch (err) {
+            setAlert({ show: true, message: "Login failed. " + err.message, isSuccess: false });
+            setError(err.message);
         }
     };
 
     const closeAlert = () => {
         setAlert({ ...alert, show: false });
     };
+
+  
 
     return (
         <div className="flex flex-col lg:flex-row min-h-screen">
@@ -40,8 +47,8 @@ function Login() {
                     <h2 className="text-4xl font-bold text-de-york text-center lg:text-left" style={{ fontFamily: "Segoe UI Emoji, sans" }}>Log in to your account</h2>
                     <div className="text-sm text-center lg:text-left" style={{ fontFamily: "Arial, sans-serif" }}>
                         <span>{`Don't have an account?`} </span>
-                        <Link to="/signin">
-                            <a href="#" className="text-blue-500 hover:underline">Sign Up</a>
+                        <Link to="/signin"
+                             className="text-blue-500 hover:underline">Sign Up
                         </Link>
                     </div>
                     <div className="space-y-4">
