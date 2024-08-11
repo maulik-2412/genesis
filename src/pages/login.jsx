@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useState } from "react";
 import telehealthImage from "../assets/telehealth_logo.png";
 import GoogleImage from "../assets/google_icon.png";
@@ -15,6 +16,7 @@ function Login() {
     const [showPassword, setShowPassword] = useState(false);
     const [alert, setAlert] = useState({ show: false, message: "", isSuccess: false });
     const [error, setError] = useState(''); 
+    // eslint-disable-next-line no-unused-vars
     const [user, loading, authError] = useAuthState(auth);
 
     const handleNextClick = () => {
