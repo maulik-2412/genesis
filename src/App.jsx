@@ -6,6 +6,7 @@ import Login from './pages/login'
 import SignIn from './pages/signin'
 import FindDoctor from './pages/findDoctor'
 
+import RazorpayPayment from './components/RazorpayPayment'
 // import Banner from './pages/banner'
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
       <Route path="/login" element={<Login />} />
       <Route path="/signin" element={<SignIn />} />
       <Route path="/finddoctor" element={<FindDoctor />} />
+      <Route path="/payment" element={<RazorpayPayment />} /> 
       </Routes>
     </Router>
     </>
