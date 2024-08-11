@@ -42,14 +42,16 @@ function SignIn() {
           .then((userCredential) => {
             const user = userCredential.user;
              console.log("User signed up:", user);
+             setAlert({ show: true, message: "User signed up successfully!", isSuccess: true });
           })
            .catch((error) => {
              console.error("Sign up error:", error);
+             setAlert({ show: true, message: "Sign-up error: " + error.message, isSuccess: false });
            });
       };
 
     const handleSignUpClick = () => {
-        // Simulating sign-up process (replace with actual API call)
+        
         if (customerEmail && firstName && lastName && password.length >= 8) {
             setAlert({ show: true, message: "Sign-up successful!", isSuccess: true });
         } else {
@@ -58,6 +60,7 @@ function SignIn() {
     };
 
     const closeAlert = () => {
+        
         setAlert({ ...alert, show: false });
     };
 

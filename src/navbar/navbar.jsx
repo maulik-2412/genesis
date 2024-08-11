@@ -73,7 +73,7 @@ export default function Navbar() {
             <Link to="/findDoctor" className ="flex items-center find-doctor-link">Find Doctor</Link>
             </li>
             <li className={`block p-1 font-sans text-md antialiased font-medium leading-8 ${isActive('howwework')}`}>
-              <a href="#howwework" className="flex items-center symptom-checker-link">Symptom Checker</a>
+              <Link to="/consult" className="flex items-center symptom-checker-link">Consult</Link>
             </li>
            
           </ul>

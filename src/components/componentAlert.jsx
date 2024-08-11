@@ -1,13 +1,20 @@
-
 import PropTypes from "prop-types"; 
+import { useNavigate } from "react-router-dom";
 
 function CustomAlert({ message, onClose, isSuccess }) {
+    const navigate = useNavigate();
+    
+    const handleOkClick = () => {
+        onClose();
+        navigate('/'); // Navigate to home page
+    };
+
     return (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
             <div className={`p-4 rounded-lg ${isSuccess ? "bg-salem" : "bg-red-500"} text-white max-w-sm w-full`}>
                 <p>{message}</p>
                 <button 
-                    onClick={onClose} 
+                    onClick={handleOkClick} 
                     className="mt-4 bg-white text-black py-2 px-4 rounded-lg hover:bg-gray-100"
                 >
                     OK

@@ -8,14 +8,14 @@ export default function Footer() {
           {/* Contact Us */}
           <div className="mb-4 lg:mb-0 text-center lg:text-left">
             <h3 className="text-lg font-semibold mb-2">Contact Us</h3>
-            <p className="text-sm">Email: <a href="mailto:support@telehealth.com" className="hover:underline">support@telehealth.com</a></p>
+            <p className="text-sm">Email: <a href="mailto:mauliktyagi08@gmail.com" className="hover:underline">mauliktyagi08@gmail.com</a></p>
             <p className="text-sm">Phone: <a href="tel:+1234567890" className="hover:underline">123456789</a></p>
           </div>
 
           {/* About Us */}
           <div className="mb-4 lg:mb-0 text-center lg:text-left">
             <h3 className="text-lg font-semibold mb-2">About Us</h3>
-            <a href="/about" className="text-sm hover:underline">Learn more about our services</a>
+            <a href="/about" className="text-sm hover:underline">We are coming soon with more functionalities</a>
           </div>
 
           {/* Copyright */}
