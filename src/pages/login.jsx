@@ -6,7 +6,7 @@ import GoogleImage from "../assets/google_icon.png";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import CustomAlert from "../components/componentAlert"; // Import the CustomAlert component
-import { auth,googleProvider } from "../../firebase";
+import { auth,googleProvider } from "../firebase";
 import { signInWithEmailAndPassword,signInWithPopup } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
 
@@ -19,7 +19,8 @@ function Login() {
     const [error, setError] = useState(''); 
     // eslint-disable-next-line no-unused-vars
     const [user, loading, authError] = useAuthState(auth);
-
+    const navigate = useNavigate(); 
+    
     const handleNextClick = () => {
         setShowPassword(true);
     };
@@ -44,12 +45,21 @@ function Login() {
         }
     };
 
-    const closeAlert = () => {
-        setAlert({ ...alert, show: false });
+    // const closeAlert = () => {
+    //     setAlert({ ...alert, show: false });
+    // };
+    const handleOkClick = () => {
+        if (alert.isSuccess) {
+            navigate("/"); // Navigate to homepage on success
+        } 
+        else {
+            window.location.reload(); 
+        }
     };
 
     if (loading) return <div>Loading...</div>;
   
+     
 
     return (
         <div className="flex flex-col lg:flex-row min-h-screen">

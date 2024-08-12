@@ -1,12 +1,12 @@
 import PropTypes from "prop-types"; 
 import { useNavigate } from "react-router-dom";
 
-function CustomAlert({ message, onClose, isSuccess }) {
+function CustomAlert({ message, onOkClick, isSuccess }) {
     const navigate = useNavigate();
     
     const handleOkClick = () => {
-        onClose();
-        navigate('/'); // Navigate to home page
+        onOkClick(); // Call the provided onOkClick function
+        navigate('/'); // Navigate to the home page
     };
 
     return (
@@ -14,7 +14,7 @@ function CustomAlert({ message, onClose, isSuccess }) {
             <div className={`p-4 rounded-lg ${isSuccess ? "bg-salem" : "bg-red-500"} text-white max-w-sm w-full`}>
                 <p>{message}</p>
                 <button 
-                    onClick={onOkClick} // Handle navigation here
+                    onClick={handleOkClick} // Use handleOkClick here
                     className="mt-4 bg-white text-black py-2 px-4 rounded-lg hover:bg-gray-100"
                 >
                     OK
@@ -26,7 +26,7 @@ function CustomAlert({ message, onClose, isSuccess }) {
 
 CustomAlert.propTypes = {
     message: PropTypes.string.isRequired,
-    onOkClick: PropTypes.func.isRequired, // Update prop type
+    onOkClick: PropTypes.func.isRequired, // Prop type is correct
     isSuccess: PropTypes.bool.isRequired,
 };
 
