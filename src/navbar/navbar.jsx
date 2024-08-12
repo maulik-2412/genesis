@@ -50,11 +50,8 @@ export default function Navbar() {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  const handleLinkClick = (id) => {
+  const handleLinkClick = () => {
     setIsMenuOpen(false);
-    setTimeout(() => {
-      document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
-    }, 300);
   };
 
   const isActive = (id) => (activeSection === id ? 'text-cetacean-blue' : '');
@@ -124,7 +121,7 @@ export default function Navbar() {
                     }}
                     className={`block p-1 font-sans text-sm antialiased font-normal leading-normal ${isActive('aboutus')}`}
                   >
-                    <a onClick={() => handleLinkClick('aboutus')} href="#aboutus" className="flex items-center">About Us</a>
+                    <Link to="/finddoctor" onClick={() => handleLinkClick()}  className="flex items-center">Find Doctor</Link>
                   </motion.li>
                   <motion.li
                     initial={{ scale: 0, opacity: 0 }}
@@ -137,21 +134,9 @@ export default function Navbar() {
                     }}
                     className={`block p-1 font-sans text-sm antialiased font-normal leading-normal ${isActive('howwework')}`}
                   >
-                    <a onClick={() => handleLinkClick('howwework')} href="#howwework" className="flex items-center">How We Work</a>
+                    <Link to="/consult" onClick={() => handleLinkClick()}  className="flex items-center">Consult</Link>
                   </motion.li>
-                  <motion.li
-                    initial={{ scale: 0, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    transition={{
-                      type: 'spring',
-                      stiffness: 260,
-                      damping: 20,
-                      delay: 0.1 + 3 / 10,
-                    }}
-                    className={`block p-1 font-sans text-sm antialiased font-normal leading-normal ${isActive('contact')}`}
-                  >
-                    <a onClick={() => handleLinkClick('contact')} href="#contact" className="flex items-center">Contact</a>
-                  </motion.li>
+                  
                 </ul>
               </div>
             </motion.div>
