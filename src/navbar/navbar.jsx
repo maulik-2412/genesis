@@ -1,11 +1,17 @@
+
+
+
 import { useState, useEffect, useRef } from 'react';
 import { useClickAway } from 'react-use';
+import PropTypes from 'prop-types';
 import menu from '../assets/react.svg';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import teleHealth from "../assets/telehealth.png"
+import teleHealth from "../assets/telehealth.png";
+import { signOut } from 'firebase/auth';
+import { auth } from '../firebase.js'; // Adjust the path as needed
 
-export default function Navbar() {
+export default function Navbar({ user }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('');
 
@@ -59,40 +65,59 @@ export default function Navbar() {
 
   const isActive = (id) => (activeSection === id ? 'text-cetacean-blue' : '');
 
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      window.location.reload(); // Refresh the page to reflect the changes
+    } catch (err) {
+      console.error("Error signing out: ", err);
+    }
+  };
+
   return (
-    <nav className="homeNavbar bg-de-york sticky top-0 z-10 block w-full  px-4 py-2 rounded-none h-max backdrop-blur-2xl backdrop-saturate-200 lg:px-8 lg:py-4">
+    <nav className="homeNavbar bg-de-york sticky top-0 z-10 block w-full px-4 py-2 rounded-none h-max backdrop-blur-2xl backdrop-saturate-200 lg:px-8 lg:py-4">
       <div className="flex items-center justify-between">
-       <Link to="/" className="flex items-center text-picton-blue mr-4 cursor-pointer py-1.5 font-sans text-base font-medium leading-relaxed antialiased">
-            <img src={teleHealth} alt="telehealth logo" className="object-cover h-12 w-auto mr-2 animate-bounce"  />
-            <span className="text-salem font-bold text-2xl font-serif">Telehealth</span>
-       </Link>
+        <Link to="/" className="flex items-center text-picton-blue mr-4 cursor-pointer py-1.5 font-sans text-base font-medium leading-relaxed antialiased">
+          <img src={teleHealth} alt="telehealth logo" className="object-cover h-12 w-auto mr-2 animate-bounce" />
+          <span className="text-salem font-bold text-2xl font-serif">Telehealth</span>
+        </Link>
         <div className="hidden items-center lg:block">
           <ul className="flex flex-col gap-2 mt-2 mb-4 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center">
-         
             <li className={`block p-1 grow font-sans text-md antialiased font-medium leading-8 ${isActive('aboutus')}`}>
-            <Link to="/findDoctor" className ="flex items-center find-doctor-link">Find Doctor</Link>
+              <Link to="/findDoctor" className="flex items-center find-doctor-link">Find Doctor</Link>
             </li>
             <li className={`block p-1 font-sans text-md antialiased font-medium leading-8 ${isActive('howwework')}`}>
               <a href="#howwework" className="flex items-center symptom-checker-link">Symptom Checker</a>
             </li>
-           
           </ul>
         </div>
         
         <div className="flex items-center gap-8">
-        <div className="flex items-center gap-x-1">
-            <Link to="/login">
-            <button id="log" className="hidden px-4 py-2 font-sans text-xs font-bold text-center text-wheat bg-sazerac uppercase align-middle transition-all rounded-lg select-none hover:bg-monza active:bg-gray-900/20 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none lg:inline-block" type="button">
-              <span>Log In</span>
-            </button>
-            </Link>
-
-            <Link to="/signin"> 
-            <button id="sign" className="hidden select-none px-4 py-2 rounded-lg bg-bittersweet py-2 px-4 text-wheat bg-sazerac align-middle font-sans text-xs font-bold uppercase text-sazerac shadow-md shadow-gray-900/10 transition-all hover:bg-monza active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none lg:inline-block" type="button">
-              <span>Sign in</span>
-            </button>
-            </Link>
-          </div>
+          {user ? (
+            <>
+              <Link to="/profile">
+                <button className="hidden px-4 py-2 font-sans text-xs font-bold text-center text-wheat bg-sazerac uppercase align-middle transition-all rounded-lg select-none lg:inline-block">
+                  <span>Profile</span>
+                </button>
+              </Link>
+              <button onClick={handleLogout} className="hidden px-4 py-2 font-sans text-xs font-bold text-center text-wheat bg-red-600 uppercase align-middle transition-all rounded-lg select-none lg:inline-block">
+                <span>Logout</span>
+              </button>
+            </>
+          ) : (
+            <div className="flex items-center gap-x-1">
+              <Link to="/login">
+                <button id="log" className="hidden px-4 py-2 font-sans text-xs font-bold text-center text-wheat bg-sazerac uppercase align-middle transition-all rounded-lg select-none hover:bg-monza lg:inline-block">
+                  <span>Log In</span>
+                </button>
+              </Link>
+              <Link to="/signin">
+                <button id="sign" className="hidden select-none px-4 py-2 rounded-lg bg-bittersweet py-2 px-4 text-wheat bg-sazerac align-middle font-sans text-xs font-bold uppercase text-sazerac shadow-md shadow-gray-900/10 transition-all hover:bg-monza lg:inline-block">
+                  <span>Sign in</span>
+                </button>
+              </Link>
+            </div>
+          )}
           <button ref={buttonRef} className={`relative ml-auto h-6 max-h-[40px] w-6 max-w-[40px] select-none rounded text-center align-middle text-xs font-medium transition-all ${isMenuOpen ? 'border-2' : ''} disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none lg:hidden`} type="button" onClick={toggleMenu}>
             <span className="absolute transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 w-6 h-6">
               <img src={menu} className="w-6 h-6" />
@@ -161,3 +186,8 @@ export default function Navbar() {
     </nav>
   );
 }
+
+Navbar.propTypes = {
+  user: PropTypes.object,
+};
+

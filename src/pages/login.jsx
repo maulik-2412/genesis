@@ -3,8 +3,9 @@ import telehealthImage from "../assets/telehealth_logo.png";
 import GoogleImage from "../assets/google_icon.png";
 // import githubImage from "../assets/github_icon.png";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import CustomAlert from "../components/componentAlert"; // Import the CustomAlert component
-import { auth } from "../../firebase";
+import { auth } from "../firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 
 
@@ -14,6 +15,19 @@ function Login() {
     const [showPassword, setShowPassword] = useState(false);
     const [alert, setAlert] = useState({ show: false, message: "", isSuccess: false });
     const [error, setError] = useState(''); 
+
+    const navigate = useNavigate(); // Initialize useNavigate
+
+
+    const handleOkClick = () => {
+        if (alert.isSuccess) {
+            navigate("/"); // Navigate to homepage on success
+        } 
+        else {
+            window.location.reload(); 
+        }
+    };
+
 
     const handleNextClick = () => {
         setShowPassword(true);
@@ -125,7 +139,8 @@ function Login() {
             {alert.show && (
                 <CustomAlert
                     message={alert.message}
-                    onClose={closeAlert}
+                    // onClose={closeAlert}
+                    onOkClick={handleOkClick} 
                     isSuccess={alert.isSuccess}
                 />
             )}
