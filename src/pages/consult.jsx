@@ -1,7 +1,7 @@
 // UserInfoForm.js
 
 import { useState } from 'react';
-import { auth, db } from '../firebase'; // Import your Firebase configuration
+import { auth,db } from '../../firebase';
 import { doc, setDoc } from 'firebase/firestore';
 import { useAuthState } from 'react-firebase-hooks/auth';
 

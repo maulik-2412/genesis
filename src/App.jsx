@@ -9,7 +9,7 @@ import FindDoctor from './pages/findDoctor';
 import Consult from './pages/consult';
 import RazorpayPayment from './components/RazorpayPayment';
 import { onAuthStateChanged } from 'firebase/auth';
-import { auth } from "./firebase"; // Updated import
+import { auth } from '../firebase'; 
 
 function App() {
   const [user, setUser] = useState(null);
@@ -19,7 +19,7 @@ function App() {
       setUser(currentUser);
     });
 
-    return () => unsubscribe(); // Cleanup subscription on unmount
+    return () => unsubscribe(); 
   }, []);
 
   return (
