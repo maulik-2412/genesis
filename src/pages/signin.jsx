@@ -1,11 +1,12 @@
 import { useState } from "react";
 import passwordIcon from "../assets/password_icon.png";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import GoogleImage from "../assets/google_icon.png";
 import passwordShowIcon from "../assets/password_show.png";
 import telehealthImage from "../assets/telehealth_logo.png";
 import { GoogleAuthProvider,signInWithPopup } from "firebase/auth";
-import { auth } from "../../firebase";
+import { auth } from "../firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 
 import CustomAlert from "../components/componentAlert"; // Import the CustomAlert component
@@ -17,7 +18,8 @@ function SignIn() {
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
     const [alert, setAlert] = useState({ show: false, message: "", isSuccess: false });
-
+     
+    const navigate = useNavigate(); // Initialize useNavigate
     // Toggle password visibility
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
@@ -35,20 +37,37 @@ function SignIn() {
         }
       };
 
-      const handleSubmit = (event) => {
-        event.preventDefault();
+    //   const handleSubmit = (event) => {
+    //     event.preventDefault();
       
-         createUserWithEmailAndPassword(auth, customerEmail, password)
-          .then((userCredential) => {
-            const user = userCredential.user;
-             console.log("User signed up:", user);
-             setAlert({ show: true, message: "User signed up successfully!", isSuccess: true });
-          })
-           .catch((error) => {
-             console.error("Sign up error:", error);
-             setAlert({ show: true, message: "Sign-up error: " + error.message, isSuccess: false });
-           });
-      };
+    //      createUserWithEmailAndPassword(auth, customerEmail, password)
+    //       .then((userCredential) => {
+    //         const user = userCredential.user;
+    //          console.log("User signed up:", user);
+    //       })
+    //        .catch((error) => {
+    //          console.error("Sign up error:", error);
+    //        });
+    //   };
+
+
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+
+        createUserWithEmailAndPassword(auth, customerEmail, password)
+            .then((userCredential) => {
+                const user = userCredential.user;
+                console.log("User signed up:", user);
+                setAlert({ show: true, message: "Sign-up successful!", isSuccess: true });
+            })
+            .catch((error) => {
+                console.error("Sign up error:", error);
+                setAlert({ show: true, message: "Sign-up failed. Please try again.", isSuccess: false });
+            });
+    };
+
+
 
     const handleSignUpClick = () => {
         
@@ -59,11 +78,17 @@ function SignIn() {
         }
     };
 
-    const closeAlert = () => {
-        
-        setAlert({ ...alert, show: false });
+    // const closeAlert = () => {
+    //     setAlert({ ...alert, show: false });
+    // };
+    const handleOkClick = () => {
+        if (alert.isSuccess) {
+            navigate("/"); // Navigate to homepage on success
+        } 
+        else {
+            window.location.reload(); 
+        }
     };
-
     return (
         <div className="flex flex-col lg:flex-row items-center justify-center min-h-screen bg-white">
             <div className="flex flex-col lg:flex-row w-full max-w-4xl shadow-lg">
@@ -169,7 +194,8 @@ function SignIn() {
             {alert.show && (
                 <CustomAlert
                     message={alert.message}
-                    onClose={closeAlert}
+                    // onClose={closeAlert}
+                    onOkClick={handleOkClick} 
                     isSuccess={alert.isSuccess}
                 />
             )}
