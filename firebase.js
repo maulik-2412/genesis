@@ -13,6 +13,7 @@ const firebaseConfig = {
   apiKey: 
   "AIzaSyAoqohAdQsV91khfM3xiCcRGyFXfi511zQ",
   authDomain: import.meta.env.VITE_APP_FIREBASE_AUTH_DOMAIN,
+  databaseURL: "https://onlinehealth-29689-default-rtdb.firebaseio.com",
   projectId: import.meta.env.VITE_APP_FIREBASE_PROJECT_ID,
   storageBucket: import.meta.env.VITE_APP_FIREBASE_STORAGE_BUCKET,
   messagingSenderId: import.meta.env.VITE_APP_FIREBASE_MESSAGING_SENDER_ID,
