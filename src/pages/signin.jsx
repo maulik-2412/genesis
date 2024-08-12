@@ -6,7 +6,7 @@ import GoogleImage from "../assets/google_icon.png";
 import passwordShowIcon from "../assets/password_show.png";
 import telehealthImage from "../assets/telehealth_logo.png";
 import { GoogleAuthProvider,signInWithPopup } from "firebase/auth";
-import { auth } from "../firebase";
+import { auth } from "../../firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 
 import CustomAlert from "../components/componentAlert"; // Import the CustomAlert component

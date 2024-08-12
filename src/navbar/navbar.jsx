@@ -9,7 +9,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import teleHealth from "../assets/telehealth.png";
 import { signOut } from 'firebase/auth';
-import { auth } from '../firebase.js'; // Adjust the path as needed
+import { auth } from '../../firebase';
 
 export default function Navbar({ user }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
