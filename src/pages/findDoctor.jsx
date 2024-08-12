@@ -11,6 +11,14 @@ const FindDoctor = () => {
     const [center, setCenter] = useState([4.899, 52.372]); 
     const [locationInput, setLocationInput] = useState("");
 
+
+    const [alert, setAlert] = useState({ show: false, message: "", isSuccess: true });
+
+
+    const closeAlert = () => {
+        setAlert({ ...alert, show: false });
+    };
+
     useEffect(() => {
         
         const mapInstance = tt.map({
@@ -99,12 +107,25 @@ const FindDoctor = () => {
                     .setLngLat([doctor.position.lon, doctor.position.lat])
                     .addTo(map);
 
-                marker.getElement().addEventListener('click', () => {
-                    alert(`Doctor: ${doctor.poi.name}\nSpecialty: ${doctor.poi.categories.join(', ')}`);
-                });
+            //     marker.getElement().addEventListener('click', () => {
+            //         alert(`Doctor: ${doctor.poi.name}\nSpecialty: ${doctor.poi.categories.join(', ')}`);
 
-                return marker;
+            //     });
+
+            //     return marker;
+            // });
+
+
+            marker.getElement().addEventListener('click', () => {
+                setAlert({
+                    show: true,
+                    message: `Doctor: ${doctor.poi.name}<br>Specialty: ${doctor.poi.categories.join(', ')}`,
+                    isSuccess: true,
+                });
             });
+            
+            return marker;
+         });
 
             setMarkers(newMarkers);
         }
@@ -133,16 +154,48 @@ const FindDoctor = () => {
 
     return (
         <>
-            <div style={{ padding: "10px", backgroundColor: "#fff" }}>
-                <input
-                    type="text"
-                    value={locationInput}
-                    onChange={handleLocationInputChange}
-                    placeholder="Enter a location"
-                />
-                <button onClick={handleLocationSubmit}>Go</button>
+
+        <div style={{ padding: "10px", backgroundColor: "#fff" }}>
+            <input
+                type="text"
+                value={locationInput}
+                onChange={handleLocationInputChange}
+                placeholder="Enter a location"
+            />
+            <button onClick={handleLocationSubmit}>Go</button>
+        </div>
+        <div ref={mapElement} style={{ width: "100vw", height: "100vh" }} />
+        
+        {alert.show && (
+            <div style={{
+                position: 'fixed',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                backgroundColor: alert.isSuccess ? 'green' : 'red',
+                color: 'white',
+                padding: '20px',
+                borderRadius: '8px',
+                zIndex: 1000,
+            }}>
+                <div dangerouslySetInnerHTML={{ __html: alert.message }} />
+                <button
+                    onClick={closeAlert}
+                    style={{
+                        backgroundColor: 'white',
+                        color: 'black',
+                        border: 'none',
+                        padding: '10px',
+                        borderRadius: '5px',
+                        cursor: 'pointer',
+                        marginTop: '10px',
+                    }}
+                >
+                    OK
+                </button>
             </div>
-            <div ref={mapElement} style={{ width: "100vw", height: "100vh" }} />
+        )}
+
         </>
     );
 };
