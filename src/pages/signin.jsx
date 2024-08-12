@@ -70,7 +70,7 @@ function SignIn() {
 
 
     const handleSignUpClick = () => {
-        // Simulating sign-up process (replace with actual API call)
+        
         if (customerEmail && firstName && lastName && password.length >= 8) {
             setAlert({ show: true, message: "Sign-up successful!", isSuccess: true });
         } else {

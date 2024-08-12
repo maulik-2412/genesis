@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useState } from "react";
 import telehealthImage from "../assets/telehealth_logo.png";
 import GoogleImage from "../assets/google_icon.png";
@@ -5,8 +6,9 @@ import GoogleImage from "../assets/google_icon.png";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import CustomAlert from "../components/componentAlert"; // Import the CustomAlert component
-import { auth } from "../firebase";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth,googleProvider } from "../../firebase";
+import { signInWithEmailAndPassword,signInWithPopup } from "firebase/auth";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 
 function Login() {
@@ -15,19 +17,8 @@ function Login() {
     const [showPassword, setShowPassword] = useState(false);
     const [alert, setAlert] = useState({ show: false, message: "", isSuccess: false });
     const [error, setError] = useState(''); 
-
-    const navigate = useNavigate(); // Initialize useNavigate
-
-
-    const handleOkClick = () => {
-        if (alert.isSuccess) {
-            navigate("/"); // Navigate to homepage on success
-        } 
-        else {
-            window.location.reload(); 
-        }
-    };
-
+    // eslint-disable-next-line no-unused-vars
+    const [user, loading, authError] = useAuthState(auth);
 
     const handleNextClick = () => {
         setShowPassword(true);
@@ -43,10 +34,21 @@ function Login() {
         }
     };
 
+    const handleGoogleLogin = async () => {
+        try {
+            await signInWithPopup(auth, googleProvider);
+            setAlert({ show: true, message: "Login successful with Google!", isSuccess: true });
+        } catch (err) {
+            setAlert({ show: true, message: "Google login failed. " + err.message, isSuccess: false });
+            setError(err.message);
+        }
+    };
+
     const closeAlert = () => {
         setAlert({ ...alert, show: false });
     };
 
+    if (loading) return <div>Loading...</div>;
   
 
     return (
@@ -66,7 +68,7 @@ function Login() {
                         </Link>
                     </div>
                     <div className="space-y-4">
-                        <button className="w-full flex items-center justify-center bg-gray-100 text-gray-600 py-2 px-4 rounded-lg hover:bg-gray-200">
+                        <button onClick={handleGoogleLogin} className="w-full flex items-center justify-center bg-gray-100 text-gray-600 py-2 px-4 rounded-lg hover:bg-gray-200">
                             <img src={GoogleImage} alt="Google Icon" className="mr-2 w-5 h-5" />
                             Google
                         </button>
@@ -112,7 +114,7 @@ function Login() {
                         </button>
                     ) : (
                         <>
-                            <a href="#" className="text-sm text-blue-500 hover:underline">Forgot Password?</a>
+                            
                             <button
                                 onClick={handleLoginClick}
                                 className="w-full bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700"
@@ -131,7 +133,7 @@ function Login() {
                     <p className="text-lg mb-8">
                     Experience the future of healthcare with our telehealth solution. Access medical consultations, manage health records, and get personalized advice from top professionals—all from the comfort of your home. Stay connected to your health, no matter where you are.
                     </p>
-                    <a href="#" className="text-white underline">View the schedule →</a>
+                   
                 </div>
             </div>
 
