@@ -36,16 +36,7 @@ function Login() {
         }
     };
 
-    const handleGoogleLogin = async () => {
-        try {
-            await signInWithPopup(auth, googleProvider);
-            setAlert({ show: true, message: "Login successful with Google!", isSuccess: true });
-        } catch (err) {
-            setAlert({ show: true, message: "Google login failed. " + err.message, isSuccess: false });
-            setError(err.message);
-        }
-    };
-
+    
     const handleGoogleLogin = async () => {
         try {
             await signInWithPopup(auth, googleProvider);
