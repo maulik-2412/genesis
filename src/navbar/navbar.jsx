@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useClickAway } from 'react-use';
-import menu from '../assets/react.svg';
+import menu from '../assets/burger-bar.png';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import teleHealth from "../assets/telehealth.png"
@@ -136,7 +136,28 @@ export default function Navbar() {
                   >
                     <Link to="/consult" onClick={() => handleLinkClick()}  className="flex items-center">Consult</Link>
                   </motion.li>
-                  
+                  <motion.li
+                  initial={{ scale: 0, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={{
+                    type: 'spring',
+                    stiffness: 260,
+                    damping: 20,
+                    delay: 0.1 + 2 / 10,
+                  }}>
+                  <div className="flex justify-center gap-2">
+                    <Link to="/login">
+              <button  className="inline py-1 px-3 my-2 text-center align-middle bg-salem text-lg rounded  transition-all shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none" type="button">
+                <span>Log In</span>
+              </button>
+              </Link>
+              <Link to="/signin">
+              <button className="inline py-1 px-3 my-2 text-center align-middle bg-salem text-lg rounded transition-all shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none" type="button">
+                <span>Sign in</span>
+              </button>
+              </Link>
+            </div>
+                  </motion.li>
                 </ul>
               </div>
             </motion.div>
