@@ -6,8 +6,9 @@ import GoogleImage from "../assets/google_icon.png";
 import passwordShowIcon from "../assets/password_show.png";
 import telehealthImage from "../assets/telehealth_logo.png";
 import { GoogleAuthProvider,signInWithPopup } from "firebase/auth";
-import { auth } from "../../firebase";
+import { auth,db } from "../../firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import { doc,setDoc } from "firebase/firestore";
 
 import CustomAlert from "../components/componentAlert"; // Import the CustomAlert component
 
@@ -30,7 +31,17 @@ function SignIn() {
         try {
           const result = await signInWithPopup(auth, provider);
           const user = result.user;
-          
+          const userData = {
+            uid: user.uid,
+            name: user.displayName,
+            email: user.email,
+            photoURL: user.photoURL,
+            createdAt: new Date(),
+          };
+      
+          // Store user data in Firestore
+          const userDocRef = doc(db, 'users', user.uid); // Reference to the document in "users" collection with the user's UID
+          await setDoc(userDocRef, userData, { merge: true });
           console.log("Google Sign In Success:", user);
         } catch (error) {
           console.error("Google Sign In Error:", error);

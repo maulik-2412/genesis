@@ -93,7 +93,7 @@ export default function Navbar({ user }) {
           {user ? (
             <>
               <Link to="/profile">
-                <button className="hidden px-4 py-2 font-sans text-xs font-bold text-center text-wheat bg-sazerac uppercase align-middle transition-all rounded-lg select-none lg:inline-block">
+                <button className="hidden px-4 py-2 font-sans text-xs font-bold text-center text-wheat bg-salem uppercase align-middle transition-all rounded-lg select-none lg:inline-block">
                   <span>Profile</span>
                 </button>
               </Link>

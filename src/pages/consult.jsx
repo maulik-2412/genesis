@@ -1,45 +1,95 @@
 // UserInfoForm.js
-
-import { useState } from 'react';
+import PropTypes from 'prop-types';
+import { useState,useEffect } from 'react';
 import { auth,db } from '../../firebase';
-import { doc, setDoc } from 'firebase/firestore';
+import { getDoc,doc } from 'firebase/firestore';
 import { useAuthState } from 'react-firebase-hooks/auth';
 
-export default function Consult() {
+
+export default function Consult({userId}) {
   const [user, loading, error] = useAuthState(auth);
-  const [name, setName] = useState('');
-  const [age, setAge] = useState('');
-  const [contactNumber, setContactNumber] = useState('');
-  const [address, setAddress] = useState('');
+  
+  const [gender,setGender]=useState('');
+  const [dob,setDob]=useState();
+  
+  
   const [isBooking, setIsBooking] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  
   const [alert, setAlert] = useState({ show: false, message: "", isSuccess: false });
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-
-    if (user) {
+  const [symptoms, setSymptoms] = useState([]);
+  const [selectedSymptoms, setSelectedSymptoms] = useState([]);
+  const [diagnosis, setDiagnosis] = useState([]);
+  const [specialty, setSpecialty] = useState('');
+  
+  useEffect(() => {
+    const fetchUserData = async () => {
       try {
-        const userDoc = doc(db, 'users', user.uid);
-        await setDoc(userDoc, {
-          name,
-          age,
-          contactNumber,
-          address,
-          email: user.email,
-        });
-
-        setAlert({ show: true, message: 'User information saved!', isSuccess: true });
+        const docRef = doc(db, 'users', userId);
+        const docSnap = await getDoc(docRef);
+       
+        if (docSnap.exists()) {
+          const data=docSnap.data();
+          setGender(data.gender || '');
+          setDob(data.dob || '');
+          if (!data.gender || !data.dob) {
+            alert("Please Update your Gender and date of birth in profile section");
+          }
+        } else {
+          console.log('No such document!');
+        }
       } catch (err) {
-        setAlert({ show: true, message: 'Error saving information: ' + err.message, isSuccess: false });
+        console.error('Error fetching document:', err);
+      } 
+    };
+
+    fetchUserData();
+  }, [userId]);
+
+
+  useEffect(() => {
+    const fetchSymptoms = async () => {
+      try {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/symptoms`);
+        const result=await response.json();
+        
+        setSymptoms(result);
+      } catch (err) {
+        console.error('Error fetching symptoms:', err);
       }
-    } else {
-      setAlert({ show: true, message: 'Please log in first!', isSuccess: false });
+    };
+
+    fetchSymptoms();
+  }, []);
+
+  
+
+  const handleDiagnosis = async () => {
+    if (selectedSymptoms.length === 0) {
+      setAlert({ show: true, message: 'Please select symptoms first!', isSuccess: false });
+      return;
     }
 
-    setIsSubmitting(false);
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/diagnosis?symptoms=${JSON.stringify(selectedSymptoms)}&gender=${gender}&year_of_birth=${new Date(dob).getFullYear()}&language=en-gb`);
+      const data = await response.json();
+      setDiagnosis(data);
+      setSpecialty(mapDiagnosisToSpecialty(data));
+    } catch (err) {
+      console.error('Error fetching diagnosis:', err);
+      setAlert({ show: true, message: 'Failed to fetch diagnosis. Please try again.', isSuccess: false });
+    }
   };
+
+
+  const mapDiagnosisToSpecialty = (diagnosisData) => {
+    if (diagnosisData.length > 0) {
+      return diagnosisData[0].Specialisation.map(spec => spec.Name).join(', ');
+    }
+    return 'General Practitioner';
+  };
+
+ 
 
   const handleBooking = () => {
     setIsBooking(true);
@@ -65,58 +115,40 @@ export default function Consult() {
     <div className="min-h-screen flex flex-col items-center bg-gray-100 py-8">
       <div className="w-full max-w-3xl bg-white shadow-lg rounded-lg p-8">
         <h1 className="text-3xl font-bold mb-6 text-gray-800">User Information</h1>
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form  className="space-y-4">
+          
+
           <div className="flex flex-col space-y-2">
-            <label className="text-gray-700 font-semibold">Name:</label>
-            <input
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-              disabled={isSubmitting}
-              className="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
+            <label className="text-gray-700 font-semibold">Select Symptoms:</label>
+            <select multiple onChange={(e) => setSelectedSymptoms([...e.target.selectedOptions].map(o => o.value))} className="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+              {symptoms.map(symptom => (
+                <option key={symptom.ID} value={symptom.ID}>
+                  {symptom.Name}
+                </option>
+              ))}
+            </select>
           </div>
-          <div className="flex flex-col space-y-2">
-            <label className="text-gray-700 font-semibold">Age:</label>
-            <input
-              type="number"
-              value={age}
-              onChange={(e) => setAge(e.target.value)}
-              required
-              disabled={isSubmitting}
-              className="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-          <div className="flex flex-col space-y-2">
-            <label className="text-gray-700 font-semibold">Contact Number:</label>
-            <input
-              type="text"
-              value={contactNumber}
-              onChange={(e) => setContactNumber(e.target.value)}
-              required
-              disabled={isSubmitting}
-              className="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-          <div className="flex flex-col space-y-2">
-            <label className="text-gray-700 font-semibold">Address:</label>
-            <input
-              type="text"
-              value={address}
-              onChange={(e) => setAddress(e.target.value)}
-              required
-              disabled={isSubmitting}
-              className="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
+
+
           <button
-            type="submit"
-            disabled={isSubmitting}
-            className={`w-full py-2 px-4 rounded-lg font-semibold text-white ${isSubmitting ? 'bg-gray-400' : 'bg-de-york hover:bg-salem'} transition duration-300`}
+            type="button"
+            onClick={handleDiagnosis}
+            className="w-full py-2 px-4 rounded-lg font-semibold text-white bg-blue-500 hover:bg-blue-700 transition duration-300"
           >
-            {isSubmitting ? 'Saving...' : 'Save Information'}
+            Get Diagnosis
           </button>
+          {diagnosis.length > 0 && (
+            <div className="mt-8">
+              <h2 className="text-2xl font-bold text-gray-800 mb-4">Possible Diagnosis</h2>
+              {diagnosis.map(d => (
+                <div key={d.Issue.ID} className="mb-4">
+                  <h3 className="text-lg font-semibold">{d.Issue.Name}</h3>
+                  <p>Accuracy: {d.Issue.Accuracy}%</p>
+                </div>
+              ))}
+              <h2 className="text-xl font-bold text-gray-800 mt-4">Suggested Specialty: {specialty}</h2>
+            </div>
+          )}
         </form>
 
         {user && (
@@ -151,3 +183,6 @@ export default function Consult() {
     </div>
   );
 }
+Consult.propTypes = {
+  userId: PropTypes.string.isRequired,
+};

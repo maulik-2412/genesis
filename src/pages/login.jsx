@@ -1,5 +1,6 @@
+
 /* eslint-disable no-unused-vars */
-/* eslint-disable no-unused-vars */
+import PropTypes from "prop-types";
 import { useState } from "react";
 import telehealthImage from "../assets/telehealth_logo.png";
 import GoogleImage from "../assets/google_icon.png";
@@ -10,7 +11,8 @@ import CustomAlert from "../components/componentAlert"; // Import the CustomAler
 import { auth,googleProvider } from "../../firebase";
 import { signInWithEmailAndPassword,signInWithPopup } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
-
+import { db } from "../../firebase";
+import { setDoc,doc } from "firebase/firestore";
 
 function Login() {
     const [customerEmail, setCustomerEmail] = useState("");
@@ -21,7 +23,7 @@ function Login() {
     // eslint-disable-next-line no-unused-vars
     const [user, loading, authError] = useAuthState(auth);
     const navigate = useNavigate(); 
-    
+   
     const handleNextClick = () => {
         setShowPassword(true);
     };
@@ -30,6 +32,8 @@ function Login() {
         try {
             await signInWithEmailAndPassword(auth, customerEmail, customerPassword);
             setAlert({ show: true, message: "Login successful!", isSuccess: true });
+            
+            navigate("/profile");
         } catch (err) {
             setAlert({ show: true, message: "Login failed. " + err.message, isSuccess: false });
             setError(err.message);
@@ -39,8 +43,13 @@ function Login() {
     
     const handleGoogleLogin = async () => {
         try {
-            await signInWithPopup(auth, googleProvider);
+           await signInWithPopup(auth, googleProvider);
+          
+          
+              
+             
             setAlert({ show: true, message: "Login successful with Google!", isSuccess: true });
+            navigate("/profile");
         } catch (err) {
             setAlert({ show: true, message: "Google login failed. " + err.message, isSuccess: false });
             setError(err.message);
