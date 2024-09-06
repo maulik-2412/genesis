@@ -10,9 +10,13 @@ import Consult from './pages/consult';
 import RazorpayPayment from './components/RazorpayPayment';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../firebase'; 
+import Profile from './pages/profile';
+import Pleaselogin from './pages/pleaselogin';
 
 function App() {
   const [user, setUser] = useState(null);
+  
+  
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -27,11 +31,24 @@ function App() {
       <Navbar user={user} />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
+       
         <Route path="/signin" element={<SignIn />} />
         <Route path="/finddoctor" element={<FindDoctor />} />
-        <Route path="/consult" element={<Consult />} />
+        
         <Route path="/payment" element={<RazorpayPayment />} /> 
+        
+        {user ? (
+          <>
+       <Route path="/profile" element={ <Profile userId={user.uid}/>} /> 
+       <Route path="/consult" element={<Consult userId={user.uid} />} />
+       </>
+      ) : (
+        <>
+       <Route path="/login" element={<Login/>} /> 
+       <Route path="/consult" element={<Pleaselogin />} />
+       </>
+      )}
+      <Route path="*" element={<Login />} />
       </Routes>
     </Router>
   );

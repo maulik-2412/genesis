@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "deploy": "npm run build && firebase deploy"
   },
   "dependencies": {
     "@tomtom-international/web-sdk-maps": "^6.25.0",
@@ -19,6 +20,7 @@
     "firebase": "^10.12.5",
     "firebaseui": "^6.1.0",
     "framer-motion": "^11.3.24",
+    "prop-types": "^15.8.1",
     "razorpay": "^2.9.4",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
