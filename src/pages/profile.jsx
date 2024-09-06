@@ -7,7 +7,6 @@ const Profile = ({ userId }) => {
   const [userData, setUserData] = useState({});
   const [formData, setFormData] = useState({
     name: '',
-    age: '',
     email: '',
     phone: '',
     gender:'',
@@ -82,16 +81,6 @@ const Profile = ({ userId }) => {
             type="text"
             name="name"
             value={formData.name}
-            onChange={handleChange}
-            className='h-10 border mt-1 rounded px-4 w-full bg-gray-50'
-          />
-        </div>
-        <div className='md:col-span-2'>
-          <label>Age:</label>
-          <input
-            type="number"
-            name="age"
-            value={formData.age}
             onChange={handleChange}
             className='h-10 border mt-1 rounded px-4 w-full bg-gray-50'
           />

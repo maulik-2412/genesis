@@ -15,7 +15,7 @@ export default function Consult({userId}) {
   
   const [isBooking, setIsBooking] = useState(false);
   
-  const [alert, setAlert] = useState({ show: false, message: "", isSuccess: false });
+  const [alerting, setAlerting] = useState({ show: false, message: "", isSuccess: false });
 
   const [symptoms, setSymptoms] = useState([]);
   const [selectedSymptoms, setSelectedSymptoms] = useState([]);
@@ -32,6 +32,7 @@ export default function Consult({userId}) {
           const data=docSnap.data();
           setGender(data.gender || '');
           setDob(data.dob || '');
+          
           if (!data.gender || !data.dob) {
             alert("Please Update your Gender and date of birth in profile section");
           }
@@ -66,10 +67,12 @@ export default function Consult({userId}) {
 
   const handleDiagnosis = async () => {
     if (selectedSymptoms.length === 0) {
-      setAlert({ show: true, message: 'Please select symptoms first!', isSuccess: false });
+      setAlerting({ show: true, message: 'Please select symptoms first!', isSuccess: false });
       return;
     }
-
+    if(dob=='' || gender==''){
+      alert("Please set date of birth and gender in Profile section");
+    }
     try {
       const response = await fetch(`${import.meta.env.VITE_API_URL}api/diagnosis?symptoms=${JSON.stringify(selectedSymptoms)}&gender=${gender}&year_of_birth=${new Date(dob).getFullYear()}&language=en-gb`);
       const data = await response.json();
@@ -77,7 +80,7 @@ export default function Consult({userId}) {
       setSpecialty(mapDiagnosisToSpecialty(data));
     } catch (err) {
       console.error('Error fetching diagnosis:', err);
-      setAlert({ show: true, message: 'Failed to fetch diagnosis. Please try again.', isSuccess: false });
+      setAlerting({ show: true, message: 'Failed to fetch diagnosis. Please try again.', isSuccess: false });
     }
   };
 
@@ -100,7 +103,7 @@ export default function Consult({userId}) {
   };
 
   const closeAlert = () => {
-    setAlert({ ...alert, show: false });
+    setAlerting({ ...alerting, show: false });
   };
 
   if (loading) {
@@ -166,11 +169,11 @@ export default function Consult({userId}) {
       </div>
 
       {/* Alert Modal */}
-      {alert.show && (
+      {alerting.show && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
           <div className={`bg-white p-6 rounded-lg shadow-lg max-w-sm w-full`}>
-            <h2 className={`text-lg font-bold ${alert.isSuccess ? 'text-green-600' : 'text-red-600'}`}>{alert.isSuccess ? 'Success' : 'Error'}</h2>
-            <p className="mt-2">{alert.message}</p>
+            <h2 className={`text-lg font-bold ${alerting.isSuccess ? 'text-green-600' : 'text-red-600'}`}>{alert.isSuccess ? 'Success' : 'Error'}</h2>
+            <p className="mt-2">{alerting.message}</p>
             <button
               onClick={closeAlert}
               className="mt-4 px-4 py-2 bg-de-york text-white rounded-lg hover:bg-salem transition duration-300"
