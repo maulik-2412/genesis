@@ -50,7 +50,7 @@ export default function Consult({userId}) {
   useEffect(() => {
     const fetchSymptoms = async () => {
       try {
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/symptoms`);
+        const response = await fetch(`${import.meta.env.VITE_API_URL}api/symptoms`);
         const result=await response.json();
         
         setSymptoms(result);
@@ -71,7 +71,7 @@ export default function Consult({userId}) {
     }
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/diagnosis?symptoms=${JSON.stringify(selectedSymptoms)}&gender=${gender}&year_of_birth=${new Date(dob).getFullYear()}&language=en-gb`);
+      const response = await fetch(`${import.meta.env.VITE_API_URL}api/diagnosis?symptoms=${JSON.stringify(selectedSymptoms)}&gender=${gender}&year_of_birth=${new Date(dob).getFullYear()}&language=en-gb`);
       const data = await response.json();
       setDiagnosis(data);
       setSpecialty(mapDiagnosisToSpecialty(data));
