@@ -146,7 +146,7 @@ export default function Navbar({ user }) {
                     }}
                     className={`block p-1 font-sans text-sm antialiased font-normal leading-normal ${isActive('aboutus')}`}
                   >
-                    <Link to="/finddoctor" onClick={() => handleLinkClick()}  className="flex items-center">Find Doctor</Link>
+                    <Link to="/findDoctor" onClick={() => handleLinkClick()}  className="flex items-center">Find Doctor</Link>
                   </motion.li>
                   <motion.li
                     initial={{ scale: 0, opacity: 0 }}
