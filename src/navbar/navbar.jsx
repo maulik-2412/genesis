@@ -81,7 +81,7 @@ export default function Navbar({ user }) {
         <div className="hidden items-center lg:block">
           <ul className="flex flex-col gap-2 mt-2 mb-4 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center">
             <li className={`block p-1 grow font-sans text-md antialiased font-medium leading-8 ${isActive('aboutus')}`}>
-              <Link to="/findDoctor" className="flex items-center find-doctor-link">Find Doctor</Link>
+              <Link to="/finddoctor" className="flex items-center find-doctor-link">Find Doctor</Link>
             </li>
             <li className={`block p-1 font-sans text-md antialiased font-medium leading-8 ${isActive('howwework')}`}>
               <Link to="/consult" className="flex items-center symptom-checker-link">Consult</Link>
